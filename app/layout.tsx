@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="bg-black text-white p-3 h-24 flex items-center justify-between">
+        {/* <nav className="bg-black text-white p-3 h-24 flex items-center justify-between rounded-2xl m-2">
           <Link href="/">Next Homes</Link>
           <ul>
             <li>
@@ -41,6 +42,47 @@ export default function RootLayout({
               <Link href="/register">Signup</Link>
             </li>
           </ul>
+        </nav> */}
+
+        <nav className="bg-black text-white py-2 px-4  flex items-center justify-between rounded-2xl m-1">
+          <Link
+            href="/"
+            className="text-white font-bold text-xl hover:text-gray-300 transition-colors"
+          >
+            Next Homes
+          </Link>
+
+          <div className="flex items-center space-x-6">
+            <NavigationMenu>
+              <NavigationMenuList className="flex space-x-4">
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/login"
+                      className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md hover:bg-gray-800"
+                    >
+                      Login
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
+            <NavigationMenu>
+              <NavigationMenuList className="flex space-x-4">
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/register"
+                      className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md hover:bg-gray-800"
+                    >
+                      Signup
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
         </nav>
         {children}
       </body>
