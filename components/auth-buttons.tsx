@@ -16,7 +16,7 @@ export default function AuthButtons() {
     return (
       <div className="flex items-center space-x-4">
         <span className="text-white">{auth.currentUser.email}</span>
-        <button className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md hover:bg-gray-800">
+        <button className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md cursor-pointer hover:bg-gray-800" onClick={()=>{auth.logout()}}>
           Logout
         </button>
       </div>
