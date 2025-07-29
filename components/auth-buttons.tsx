@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 export default function AuthButtons() {
+  // using it from firebase
   const auth = useAuth();
 
   if (auth?.currentUser) {
