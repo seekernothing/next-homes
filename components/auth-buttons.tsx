@@ -8,6 +8,16 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import Image from "next/image";
 
 export default function AuthButtons() {
   // using it from firebase
@@ -15,12 +25,61 @@ export default function AuthButtons() {
 
   if (auth?.currentUser) {
     return (
-      <div className="flex items-center space-x-4">
-        <span className="text-white">{auth.currentUser.email}</span>
-        <button className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md cursor-pointer hover:bg-gray-800" onClick={()=>{auth.logout()}}>
-          Logout
-        </button>
-      </div>
+      // <div className="flex items-center space-x-4">
+      //   <span className="text-white">{auth.currentUser.email}</span>
+      //   <button className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md cursor-pointer hover:bg-gray-800" onClick={()=>{auth.logout()}}>
+      //     Logout
+      //   </button>
+      // </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Avatar>
+            {!!auth.currentUser.photoURL && (
+              <Image
+                src={auth.currentUser.photoURL}
+                alt="user profile"
+                width={70}
+                height={70}
+              />
+            )}
+
+            <AvatarFallback>
+              {(auth.currentUser.displayName || auth.currentUser.email)?.[0]}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>
+            <div>{auth.currentUser.displayName}</div>
+
+            <div className="font-normal text-xs">{auth.currentUser.email}</div>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem asChild>
+              <Link href="/account"> My account</Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <Link href="/admin-dashboard"> Admin dashboard</Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <Link href="/account/my-favourites"> My favourites</Link>
+            </DropdownMenuItem>
+
+
+            <DropdownMenuItem  onClick={async ()=>{
+              await auth.logout()
+            }}>
+             Logout
+            </DropdownMenuItem>
+
+
+          </DropdownMenuLabel>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
 
