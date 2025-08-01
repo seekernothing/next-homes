@@ -11,10 +11,12 @@ export default function ContinueWithGoogleButton() {
 
   return (
     <Button
-      className="bg-black cursor-pointer"
+      className="bg-black cursor-pointer w-full"
       onClick={() => {
         auth?.loginWithGoogle()
       }}
+      // variant={"default"}
+     
     >
       Continue With Google
     </Button>
