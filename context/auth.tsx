@@ -15,6 +15,7 @@ type AuthContextType = {
   currentUser: User | null;
   logout: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
+  // custom claims for admin role
   customClaims: ParsedToken | null;
 };
 
