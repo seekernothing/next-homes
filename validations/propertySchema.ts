@@ -9,11 +9,11 @@ export const propertyDataSchema = z.object({
     const pinCodeRegex = /^[1-9][0-9]{5}$/;
     return pinCodeRegex.test(postcode);
   }, "Invalid Indian PIN code"),
-  price: z.coerce.number().positive("Price must be greater than 0"),
+  price: z.number().positive("Price must be greater than 0"),
   description: z
     .string()
     .min(40, "Description must contain at least 40 characters"),
-  bedrooms: z.coerce.number().min(0, "Bedrooms must be at least 0"),
-  bathrooms: z.coerce.number().min(0, "Bathrooms must be at least 0"),
+  bedrooms: z.number().min(0, "Bedrooms must be at least 0"),
+  bathrooms: z.number().min(0, "Bathrooms must be at least 0"),
   status: z.enum(["draft", "for-sale", "withdrawn", "sold"]),
 });

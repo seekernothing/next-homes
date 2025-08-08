@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
-import { propertyDataSchema } from "@/validations/propertySchema"
+import PropertyForm from "@/components/property-form";
+import { propertyDataSchema } from "@/validations/propertySchema";
+import { z } from "zod";
 
 export default function NewPropertyForm() {
+  const handleSubmit = async (data: z.infer<typeof propertyDataSchema>) => {};
 
-return (
+  return (
     <div>
-        New Property form
+      <PropertyForm handleSubmit={handleSubmit} />
     </div>
-)
+  );
 }
