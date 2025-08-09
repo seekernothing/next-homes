@@ -12,6 +12,7 @@ import AuthButtons from "@/components/auth-buttons";
 import { AuthProvider } from "@/context/auth";
 import { HomeIcon } from "lucide-react";
 import {Poppins} from "next/font/google"
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets:["latin"],
@@ -70,6 +71,7 @@ export default function RootLayout({
             </div>
           </nav>
           {children}
+          <Toaster richColors closeButton />
         </AuthProvider>
       </body>
     </html>
