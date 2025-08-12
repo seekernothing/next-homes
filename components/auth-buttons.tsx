@@ -18,8 +18,11 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 
 export default function AuthButtons() {
+  const router = useRouter()
   // using it from firebase
   const auth = useAuth();
 
@@ -76,6 +79,8 @@ export default function AuthButtons() {
             <DropdownMenuItem
               onClick={async () => {
                 await auth.logout();
+                router.refresh()
+
               }}
             >
               Logout
