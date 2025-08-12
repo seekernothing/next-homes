@@ -6,13 +6,13 @@ import { propertyDataSchema } from "@/validations/propertySchema";
 
 import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
-import { saveNewProperty } from "./actions";
+import { createProperty } from "./actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function NewPropertyForm() {
   const auth = useAuth();
-  const router = useRouter()
+  const router = useRouter();
   const handleSubmit = async (data: z.infer<typeof propertyDataSchema>) => {
     const token = await auth?.currentUser?.getIdToken();
 
@@ -20,7 +20,7 @@ export default function NewPropertyForm() {
       return;
     }
 
-    const response = await saveNewProperty({ ...data, token });
+    const response = await createProperty(data, token);
 
     if (!!response.error) {
       toast.error("Error!", {
@@ -33,8 +33,7 @@ export default function NewPropertyForm() {
       description: "Property created",
     });
 
-
-    router.push("/admin-dashboard")
+    router.push("/admin-dashboard");
     console.log({ response });
   };
 
