@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { propertyDataSchema } from "@/validations/propertySchema";
+import { propertySchema } from "@/validations/propertySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -22,11 +22,12 @@ import {
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import MultiImageUploader, { ImageUpload } from "./multi-image-uploder";
 
 type Props = {
   submitButtonLabel: React.ReactNode;
-  handleSubmit: (data: z.infer<typeof propertyDataSchema>) => void;
-  defaultValues?: z.infer<typeof propertyDataSchema>;
+  handleSubmit: (data: z.infer<typeof propertySchema>) => void;
+  defaultValues?: z.infer<typeof propertySchema>;
 };
 
 export default function PropertyForm({
@@ -34,7 +35,7 @@ export default function PropertyForm({
   submitButtonLabel,
   defaultValues,
 }: Props) {
-  const combinedDefaultValues : z.infer<typeof propertyDataSchema> = {
+  const combinedDefaultValues: z.infer<typeof propertySchema> = {
     ...{
       address1: "",
       address2: "",
@@ -45,13 +46,14 @@ export default function PropertyForm({
       bathrooms: 0,
       status: "draft",
       description: "",
+      images: [],
     },
 
     ...defaultValues,
   };
 
-  const form = useForm<z.infer<typeof propertyDataSchema>>({
-    resolver: zodResolver(propertyDataSchema),
+  const form = useForm<z.infer<typeof propertySchema>>({
+    resolver: zodResolver(propertySchema),
     defaultValues: combinedDefaultValues,
   });
   return (
@@ -235,6 +237,26 @@ export default function PropertyForm({
             ></FormField>
           </fieldset>
         </div>
+
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <MultiImageUploader
+                  onImagesChange={(images: ImageUpload[]) => {
+                    console.log({ images });
+                    form.setValue("images", images);
+                  }}
+                  images={field.value}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        ></FormField>
 
         <Button
           className="max-w-md mx-auto  mt-10 w-full flex gap-2"
