@@ -3,7 +3,7 @@
 import PropertyForm from "@/components/property-form";
 import { auth, storage } from "@/firebase/client";
 import { Property } from "@/types/property";
-import { propertyDataSchema } from "@/validations/propertySchema";
+import { propertySchema } from "@/validations/propertySchema";
 import { SaveIcon } from "lucide-react";
 import { z } from "zod";
 import { updateProperty } from "./actions";
@@ -15,6 +15,7 @@ import {
   UploadTask,
 } from "firebase/storage";
 import { toast } from "sonner";
+import { savePropertyImages } from "../../actions";
 
 type Props = Property;
 
@@ -33,7 +34,7 @@ export default function EditPropertyForm({
 }: Props) {
   const router = useRouter();
 
-  const handleSubmit = async (data: z.infer<typeof propertyDataSchema>) => {
+  const handleSubmit = async (data: z.infer<typeof propertySchema>) => {
     const token = await auth?.currentUser?.getIdToken();
 
     if (!token) {
@@ -41,9 +42,11 @@ export default function EditPropertyForm({
     }
 
     // Handle images separately since they're not in propertyDataSchema
-    const newImages = (data as any).images || [];
+    // const newImages = (data as any).images || [];
 
-    const response = await updateProperty({ ...data, id }, token);
+    const { images: newImages, ...rest } = data;
+
+    const response = await updateProperty({ ...rest, id }, token);
 
     if (!!response?.error) {
       toast.error("Error!", {
@@ -76,9 +79,8 @@ export default function EditPropertyForm({
     });
 
     await Promise.all(storageTasks);
-    // Note: savePropertyImages function is not defined, removing this call
-    // await savePropertyImages({ propertyId: id, images: paths }, token);
 
+    await savePropertyImages({ propertyId: id, images: paths }, token);
     toast.success("Success!", {
       description: "Property updated",
     });
@@ -103,6 +105,10 @@ export default function EditPropertyForm({
           description,
           price,
           status,
+          images: images?.map((image) => ({
+            id: image,
+            url: image,
+          })),
         }}
       />
     </div>

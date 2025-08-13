@@ -6,7 +6,8 @@ import { propertySchema } from "@/validations/propertySchema";
 
 import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
-import { createProperty, savePropertyImages } from "./actions";
+import { createProperty,  } from "./actions";
+import{savePropertyImages} from "../actions"
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { ref, uploadBytesResumable, UploadTask } from "firebase/storage";
