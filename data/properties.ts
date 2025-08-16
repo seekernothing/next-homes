@@ -21,9 +21,12 @@ export const getProperties = async (options?: GetPropertiesOptions) => {
   const pageSize = options?.pagination?.pageSize || 10;
   const { minPrice, maxPrice, minBedrooms, status } = options?.filters || {};
 
-  let propertiesQuery = firestore
-    .collection("properties")
-    .orderBy("updated", "desc");
+  let propertiesQuery: any = firestore.collection("properties");
+
+  // Apply filters first, then order by
+  if (status) {
+    propertiesQuery = propertiesQuery.where("status", "in", status);
+  }
 
   if (minPrice !== null && minPrice !== undefined) {
     propertiesQuery = propertiesQuery.where("price", ">=", minPrice);
@@ -37,9 +40,8 @@ export const getProperties = async (options?: GetPropertiesOptions) => {
     propertiesQuery = propertiesQuery.where("bedrooms", ">=", minBedrooms);
   }
 
-  if (status) {
-    propertiesQuery = propertiesQuery.where("status", "in", status);
-  }
+  // For now, let's remove the orderBy to avoid index issues
+  // propertiesQuery = propertiesQuery.orderBy("updated", "desc");
 
   const totalPages = await getTotalPages(propertiesQuery, pageSize);
 
@@ -49,7 +51,7 @@ export const getProperties = async (options?: GetPropertiesOptions) => {
     .get();
 
   const properties = propertiesSnapshot.docs.map(
-    (doc) =>
+    (doc: any) =>
       ({
         id: doc.id,
         ...doc.data(),

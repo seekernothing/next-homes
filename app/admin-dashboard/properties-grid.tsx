@@ -44,7 +44,7 @@ export default async function PropertiesGrid({ page = 1 }: { page?: number }) {
     <div>
       {/* Properties Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {data.map((property) => {
+        {data.map((property:any) => {
           const address = [
             property.address1,
             property.address2,

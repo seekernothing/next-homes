@@ -27,10 +27,11 @@ export default async function AdminDashboard({
   // Calculate actual stats
   const totalProperties = properties?.length || 0;
   const forSaleCount =
-    properties?.filter((p) => p.status === "for-sale").length || 0;
+    properties?.filter((p: any) => p.status === "for-sale").length || 0;
   const draftCount =
-    properties?.filter((p) => p.status === "draft").length || 0;
-  const soldCount = properties?.filter((p) => p.status === "sold").length || 0;
+    properties?.filter((p: any) => p.status === "draft").length || 0;
+  const soldCount =
+    properties?.filter((p: any) => p.status === "sold").length || 0;
 
   return (
     <div className="min-h-screen bg-background">

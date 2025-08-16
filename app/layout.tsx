@@ -11,15 +11,13 @@ import Link from "next/link";
 import AuthButtons from "@/components/auth-buttons";
 import { AuthProvider } from "@/context/auth";
 import { HomeIcon } from "lucide-react";
-import {Poppins} from "next/font/google"
+import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
-  subsets:["latin"],
-  weight:["100","200","300","400","500","600","700","800"]
-})
-
-
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
   title: "Next-Homes",
@@ -33,9 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.className} antialiased`}
-      >
+      <body className={`${poppins.className} antialiased`}>
         {/* <nav className="bg-black text-white p-3 h-24 flex items-center justify-between rounded-2xl m-2">
           <Link href="/">Next Homes</Link>
           <ul>
@@ -57,14 +53,20 @@ export default function RootLayout({
               href="/"
               className="text-white font-bold text-xl hover:text-gray-300 transition-colors flex gap-2 items-center"
             >
-              <HomeIcon/>
+              <HomeIcon />
               <span> Next Homes</span>
             </Link>
 
             <div className="flex items-center space-x-6">
               <ul>
                 <li>
-                  <Link className=" hover:bg-gray-800 p-2 rounded-lg" href="/propert-search"> Property-search </Link>
+                  <Link
+                    className=" hover:bg-gray-800 p-2 rounded-lg"
+                    href="/property-search"
+                  >
+                    {" "}
+                    Property-search{" "}
+                  </Link>
                 </li>
               </ul>
               <AuthButtons />
