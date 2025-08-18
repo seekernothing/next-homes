@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decodeJwt } from "jose";
 
 export async function middleware(request: NextRequest) {
-  console.log("MIDDLEWARE :", request.url);
-
+  console.log("MIDDLEWARE: ", request.url);
   if (request.method === "POST") {
     return NextResponse.next();
   }
@@ -12,47 +11,62 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;
 
-  // Allow access to login and register routes for everyone
+  const { pathname } = request.nextUrl;
+
   if (
-    request.nextUrl.pathname.startsWith("/login") ||
-    request.nextUrl.pathname.startsWith("/register")
+    !token &&
+    (pathname.startsWith("/login") ||
+      pathname.startsWith("/register") ||
+      pathname.startsWith("/property-search") ||
+      pathname.startsWith("/forgot-password"))
   ) {
-    // If user is already logged in, redirect to home
-    if (token) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-    // If user is not logged in, allow access to login/register
     return NextResponse.next();
   }
 
-  // For admin routes, check if user is logged in and is admin
-  if (request.nextUrl.pathname.startsWith("/admin-dashboard")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
+  if (
+    token &&
+    (pathname.startsWith("/login") ||
+      pathname.startsWith("/register") ||
+      pathname.startsWith("/forgot-password"))
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-    const decodedToken = decodeJwt(token);
+  if (!token) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-     if (decodedToken.exp && (decodedToken.exp - 300) * 1000 < Date.now()) {
-       return NextResponse.redirect(
-         new URL(
-           `/api/refresh-token?redirect=${encodeURIComponent(pathname)}`,
-           request.url
-         )
-       );
-     }
+  const decodedToken = decodeJwt(token);
 
+  if (decodedToken.exp && (decodedToken.exp - 300) * 1000 < Date.now()) {
+    return NextResponse.redirect(
+      new URL(
+        `/api/refresh-token?redirect=${encodeURIComponent(pathname)}`,
+        request.url
+      )
+    );
+  }
 
+  if (!decodedToken.admin && pathname.startsWith("/admin-dashboard")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-
-    if (!decodedToken.admin) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  if (decodedToken.admin && pathname.startsWith("/account/my-favourites")) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin-dashboard/:path*", "/login", "/register"],
+  matcher: [
+    "/admin-dashboard",
+    "/admin-dashboard/:path*",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/account",
+    "/account/:path*",
+    "/property-search",
+  ],
 };
