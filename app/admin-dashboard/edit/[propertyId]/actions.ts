@@ -32,5 +32,6 @@ export const updateProperty = async (data: Property, authToken: string) => {
       updated: new Date(),
     });
 
+
   revalidatePath(`/property/${id}`);
 };
