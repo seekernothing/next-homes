@@ -2,6 +2,7 @@ import { Breadcrumbs } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPropertyById } from "@/data/properties";
 import EditPropertyForm from "./edit-property-form";
+import DeletePropertyButton from "./delete-property";
 
 export default async function EditProperty({
   params,
@@ -44,9 +45,15 @@ export default async function EditProperty({
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Card className="shadow-sm">
           <CardHeader className="pb-6">
-            <CardTitle className="text-2xl font-bold text-foreground">
-              Property Details
-            </CardTitle>
+            <div className="flex items-center justify-between gap-4">
+              <CardTitle className="text-2xl font-bold text-foreground">
+                Property Details
+              </CardTitle>
+              <DeletePropertyButton
+                propertyId={property.id}
+                imagePaths={property.images || []}
+              />
+            </div>
             <p className="text-muted-foreground">
               Make changes to your property listing below
             </p>

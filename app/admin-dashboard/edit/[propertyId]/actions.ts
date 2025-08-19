@@ -32,7 +32,31 @@ export const updateProperty = async (data: Property, authToken: string) => {
       updated: new Date(),
     });
 
-// adding caching
+  // adding caching
 
   revalidatePath(`/property/${id}`);
+};
+
+export const deleteProperty = async (propertyId: string, authToken: string) => {
+  const verifiedToken = await auth.verifyIdToken(authToken);
+
+  if (!verifiedToken.admin) {
+    return {
+      error: true,
+      message: "Unauthorized",
+    };
+  }
+
+  try {
+    await firestore.collection("properties").doc(propertyId).delete();
+  } catch (e: any) {
+    return {
+      error: true,
+      message: e?.message ?? "Failed to delete property",
+    };
+  }
+
+  // Invalidate caches for dashboard and the property page
+  revalidatePath("/admin-dashboard");
+  revalidatePath(`/property/${propertyId}`);
 };
