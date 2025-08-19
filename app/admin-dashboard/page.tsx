@@ -14,7 +14,7 @@ import PropertiesGrid from "./properties-grid";
 export default async function AdminDashboard({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<any>;
 }) {
   const searchParamsValue = await searchParams;
   console.log({ searchParamsValue });
