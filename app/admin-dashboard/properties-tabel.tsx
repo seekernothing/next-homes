@@ -45,7 +45,7 @@ export default async function PropertiesTable({ page = 1 }: { page?: number }) {
           </TableHeader>
 
           <TableBody>
-            {data.map((property) => {
+            {data.map((property:any) => {
               const address = [
                 property.address1,
                 property.address2,
