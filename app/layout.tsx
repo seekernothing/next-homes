@@ -9,6 +9,7 @@ import Link from "next/link";
 //   NavigationMenuList,
 // } from "@/components/ui/navigation-menu";
 import AuthButtons from "@/components/auth-buttons";
+import Navbar from "@/components/navbar";
 import { AuthProvider } from "@/context/auth";
 import { HomeIcon } from "lucide-react";
 import { Poppins } from "next/font/google";
@@ -48,30 +49,7 @@ export default function RootLayout({
         </nav> */}
 
         <AuthProvider>
-          <nav className="bg-black text-white py-2 px-4  flex items-center justify-between rounded-2xl m-1">
-            <Link
-              href="/"
-              className="text-white font-bold text-xl hover:text-gray-300 transition-colors flex gap-2 items-center"
-            >
-              <HomeIcon />
-              <span> Next Homes</span>
-            </Link>
-
-            <div className="flex items-center space-x-6">
-              <ul>
-                <li>
-                  <Link
-                    className=" hover:bg-gray-800 p-2 rounded-lg"
-                    href="/property-search"
-                  >
-                    {" "}
-                    Property-search{" "}
-                  </Link>
-                </li>
-              </ul>
-              <AuthButtons />
-            </div>
-          </nav>
+          <Navbar />
           {children}
           <Toaster richColors closeButton />
         </AuthProvider>

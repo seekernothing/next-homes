@@ -20,9 +20,8 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
 export default function AuthButtons() {
-  const router = useRouter()
+  const router = useRouter();
   // using it from firebase
   const auth = useAuth();
 
@@ -79,8 +78,7 @@ export default function AuthButtons() {
             <DropdownMenuItem
               onClick={async () => {
                 await auth.logout();
-                router.refresh()
-
+                router.refresh();
               }}
             >
               Logout
@@ -99,7 +97,7 @@ export default function AuthButtons() {
             <NavigationMenuLink asChild>
               <Link
                 href="/login"
-                className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md hover:bg-gray-800"
+                className="text-white hover:text-gray-300 transition-colors px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base rounded-md hover:bg-gray-800"
               >
                 Login
               </Link>
@@ -114,7 +112,7 @@ export default function AuthButtons() {
             <NavigationMenuLink asChild>
               <Link
                 href="/register"
-                className="text-white hover:text-gray-300 transition-colors px-4 py-2 rounded-md hover:bg-gray-800"
+                className="text-white hover:text-gray-300 transition-colors px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base rounded-md hover:bg-gray-800"
               >
                 Signup
               </Link>

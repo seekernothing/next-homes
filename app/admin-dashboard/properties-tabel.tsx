@@ -12,7 +12,7 @@ import {
 import { getProperties } from "@/data/properties";
 import { PencilIcon } from "lucide-react";
 import Link from "next/link";
-import numeral from "numeral"
+import numeral from "numeral";
 
 export default async function PropertiesTable({ page = 1 }: { page?: number }) {
   const { data, totalPages } = await getProperties({
@@ -21,7 +21,7 @@ export default async function PropertiesTable({ page = 1 }: { page?: number }) {
       pageSize: 2,
     },
   });
- 
+
   return (
     <>
       {!data && (
@@ -45,7 +45,7 @@ export default async function PropertiesTable({ page = 1 }: { page?: number }) {
           </TableHeader>
 
           <TableBody>
-            {data.map((property:any) => {
+            {data.map((property: any) => {
               const address = [
                 property.address1,
                 property.address2,
@@ -60,12 +60,12 @@ export default async function PropertiesTable({ page = 1 }: { page?: number }) {
                   <TableCell>
                     ₹{numeral(property.price).format("0,0")}
                   </TableCell>
-                  <TableCell><PropertyStatusBadge status={property.status}/></TableCell>
+                  <TableCell>
+                    <PropertyStatusBadge status={property.status} />
+                  </TableCell>
                   <TableCell className="flex justify-end gap-2">
                     <Button asChild className="mx-2">
-                      <Link href={`/property/${property.id}`}>
-                        view
-                      </Link>
+                      <Link href={`/property/${property.id}`}>view</Link>
                     </Button>
 
                     <Button asChild className="mx-2">
@@ -83,7 +83,13 @@ export default async function PropertiesTable({ page = 1 }: { page?: number }) {
             <TableRow>
               <TableCell colSpan={4} className="text-center">
                 {Array.from({ length: totalPages }).map((_, i) => (
-                  <Button disabled={page===i+1} key={i} asChild={page!==i+1} variant="outline" className="mx-2">
+                  <Button
+                    disabled={page === i + 1}
+                    key={i}
+                    asChild={page !== i + 1}
+                    variant="outline"
+                    className="mx-2"
+                  >
                     <Link href={`/admin-dashboard?page=${i + 1}`}>{i + 1}</Link>
                   </Button>
                 ))}

@@ -292,7 +292,7 @@ export default function HomePage() {
           <form
             action="/property-search"
             method="GET"
-            className="flex flex-col sm:flex-row gap-4 items-end"
+            className="flex flex-col sm:flex-row gap-4 sm:items-end"
           >
             <div className="flex-1">
               <Label
@@ -359,7 +359,11 @@ export default function HomePage() {
                 </SelectContent>
               </Select>
             </div>
-            <Button type="submit" size="lg" className="rounded-2xl px-8">
+            <Button
+              type="submit"
+              size="lg"
+              className="rounded-2xl px-8 w-full sm:w-auto"
+            >
               <Search className="mr-2 h-4 w-4" aria-hidden />
               Search
             </Button>
@@ -541,7 +545,7 @@ export default function HomePage() {
               <Link
                 key={neighborhood.id}
                 href={`/property-search?city=${encodeURIComponent(
-                  neighborhood.city
+                  neighborhood.city,
                 )}`}
                 className="group"
               >
